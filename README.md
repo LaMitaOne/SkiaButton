@@ -2,6 +2,9 @@
 A modern, highly customizable button component for Delphi FMX, built on top of the Skia4Delphi library. It features hardware-accelerated rendering, smooth animations, and a variety of visual styles suitable for modern UI design.     
    
 SkiaButton v 0.1 alpha   
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/LaMitaOne/SkiaButton)
+   
       
 A little gift for Delphis 31th birthday :)
     
