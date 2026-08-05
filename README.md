@@ -36,6 +36,6 @@ Features
       
 The repository includes a sample project (Unit9) that demonstrates all capabilities of the button.    
 
-   Latest CHanges:   
+   Latest Changes:   
    v 0.2:   
     - Compatibility fix for delphi 10.2 (thanks to limelect)    
