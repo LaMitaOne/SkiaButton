@@ -23,14 +23,18 @@ Customizable: corner radius, effect types, colors, animation speed
 unit uSkiaButton;
 
 interface
+
 uses
   System.SysUtils, System.Types, System.Classes, System.Math, System.UITypes,
-  FMX.Types, FMX.Controls, FMX.StdCtrls,
-  FMX.Skia, System.Skia;
+  FMX.Types, FMX.Controls, FMX.StdCtrls, FMX.Skia, System.Skia;
+
 type
   TButtonStyle = (bsFlat, bsNeon, bsRetro);
+
   THoverEffect = (heGlow, heNone, heScaleUp, heRipple, heLiquid, heTilt, heSpot);
+
   TTransitionType = (ttFade, ttImplode, tsExplode);
+
   TSkiaButton = class(TSkCustomControl)
   private
     FTimer: TTimer;
@@ -123,13 +127,17 @@ type
     property Visible;
     property HitTest;
   end;
+
 procedure Register;
+
 implementation
+
 procedure Register;
 begin
   RegisterComponents('Skia', [TSkiaButton]);
 end;
 { TSkiaButton }
+
 constructor TSkiaButton.Create(AOwner: TComponent);
 begin
   inherited;
@@ -157,16 +165,18 @@ begin
   FIsHovered := False;
   FIsPressed := False;
   FTime := 0;
-  FMousePos := TPointF.Create(0,0);
+  FMousePos := TPointF.Create(0, 0);
   HitTest := True;
   SetBounds(0, 0, 140, 50);
   Redraw;
 end;
+
 destructor TSkiaButton.Destroy;
 begin
   FTimer.Free;
   inherited;
 end;
+
 procedure TSkiaButton.SetText(const Value: string);
 begin
   if FText <> Value then
@@ -175,6 +185,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetButtonStyle(const Value: TButtonStyle);
 begin
   if FButtonStyle <> Value then
@@ -183,6 +194,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetColor(const Value: TAlphaColor);
 begin
   if FColor <> Value then
@@ -191,6 +203,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetHoverColor(const Value: TAlphaColor);
 begin
   if FHoverColor <> Value then
@@ -199,6 +212,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetPressedColor(const Value: TAlphaColor);
 begin
   if FPressedColor <> Value then
@@ -207,6 +221,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetTextColor(const Value: TAlphaColor);
 begin
   if FTextColor <> Value then
@@ -215,6 +230,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetBorderColor(const Value: TAlphaColor);
 begin
   if FBorderColor <> Value then
@@ -223,6 +239,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetBorderWidth(const Value: Single);
 begin
   if FBorderWidth <> Value then
@@ -231,6 +248,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetRoundCorners(const Value: Single);
 begin
   if FRoundCorners <> Value then
@@ -239,6 +257,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetShowBorder(const Value: Boolean);
 begin
   if FShowBorder <> Value then
@@ -247,6 +266,7 @@ begin
     InvalidateBuffer;
   end;
 end;
+
 procedure TSkiaButton.SetHovered(const Value: Boolean);
 begin
   if FIsHovered <> Value then
@@ -254,16 +274,19 @@ begin
     FIsHovered := Value;
     if FIsHovered then
     begin
-      if Assigned(FOnMouseEnter) then FOnMouseEnter(Self);
+      if Assigned(FOnMouseEnter) then
+        FOnMouseEnter(Self);
     end
     else
     begin
-      if Assigned(FOnMouseLeave) then FOnMouseLeave(Self);
+      if Assigned(FOnMouseLeave) then
+        FOnMouseLeave(Self);
     end;
     InvalidateBuffer;
     UpdateState;
   end;
 end;
+
 procedure TSkiaButton.SetPressed(const Value: Boolean);
 begin
   if FIsPressed <> Value then
@@ -273,6 +296,7 @@ begin
     UpdateState;
   end;
 end;
+
 procedure TSkiaButton.UpdateState;
 var
   IsIdle: Boolean;
@@ -284,11 +308,13 @@ begin
     FTimer.Enabled := True;
   InvalidateRect(LocalRect);
 end;
+
 procedure TSkiaButton.InvalidateBuffer;
 begin
   FBackBuffer := nil;
   Redraw;
 end;
+
 procedure TSkiaButton.OnTimer(Sender: TObject);
 const
   Delta = 0.016;
@@ -313,6 +339,7 @@ begin
   end;
   Redraw;
 end;
+
 procedure TSkiaButton.ShowAnimated;
 begin
   Visible := True;
@@ -322,6 +349,7 @@ begin
   UpdateState;
   Repaint;
 end;
+
 procedure TSkiaButton.HideAnimated;
 begin
   if FAnimationState <> asHiding then
@@ -332,6 +360,7 @@ begin
     UpdateState;
   end;
 end;
+
 procedure TSkiaButton.MouseMove(Shift: TShiftState; X, Y: Single);
 begin
   inherited;
@@ -341,40 +370,42 @@ begin
   else
     SetHovered(False);
 end;
+
 procedure TSkiaButton.DoMouseLeave;
 begin
   inherited;
   SetHovered(False);
 end;
+
 procedure TSkiaButton.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Single);
 begin
   inherited;
   if Button = TMouseButton.mbLeft then
   begin
     SetPressed(True);
-    if Assigned(FOnMouseDown) then FOnMouseDown(Self, Button, Shift, X, Y);
+    if Assigned(FOnMouseDown) then
+      FOnMouseDown(Self, Button, Shift, X, Y);
   end;
 end;
+
 procedure TSkiaButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Single);
 begin
   inherited;
   if Button = TMouseButton.mbLeft then
   begin
     SetPressed(False);
-    if Assigned(FOnMouseUp) then FOnMouseUp(Self, Button, Shift, X, Y);
+    if Assigned(FOnMouseUp) then
+      FOnMouseUp(Self, Button, Shift, X, Y);
     if PtInRect(RectF(0, 0, Width, Height), PointF(X, Y)) then
-      if Assigned(FOnClick) then FOnClick(Self);
+      if Assigned(FOnClick) then
+        FOnClick(Self);
   end;
 end;
+
 procedure TSkiaButton.Draw(const ACanvas: ISkCanvas; const ADest: TRectF; const AOpacity: Single);
 begin
   inherited Draw(ACanvas, ADest, AOpacity);
-  if not Assigned(FBackBuffer) or
-     (FBackBuffer.Width <> Round(Width)) or
-     (FBackBuffer.Height <> Round(Height)) or
-     (FAnimationState <> asIdle) or
-     FIsHovered or
-     FIsPressed then
+  if not Assigned(FBackBuffer) or (FBackBuffer.Width <> Round(Width)) or (FBackBuffer.Height <> Round(Height)) or (FAnimationState <> asIdle) or FIsHovered or FIsPressed then
   begin
     RenderToBuffer(Round(Width), Round(Height));
   end;
@@ -383,6 +414,7 @@ begin
   else
     ACanvas.Clear(TAlphaColors.Null);
 end;
+
 procedure TSkiaButton.RenderToBuffer(const AWidth, AHeight: Integer);
 var
   Surface: ISkSurface;
@@ -403,9 +435,11 @@ var
   CycleSeedInt: Integer;
   BrightnessMul: Double;
 begin
-  if (AWidth <= 0) or (AHeight <= 0) then Exit;
+  if (AWidth <= 0) or (AHeight <= 0) then
+    Exit;
   Surface := TSkSurface.MakeRaster(AWidth, AHeight);
-  if not Assigned(Surface) then Exit;
+  if not Assigned(Surface) then
+    Exit;
   Canvas := Surface.Canvas;
   DestRect := RectF(0, 0, AWidth, AHeight);
   Canvas.Clear(TAlphaColors.Null);
@@ -505,9 +539,12 @@ begin
   end;
   // --- 5. Draw Styles ---
   case FButtonStyle of
-    bsFlat:    DrawFlatStyle(Canvas, DestRect, 1.0);
-    bsNeon:    DrawNeonStyle(Canvas, DestRect, 1.0);
-    bsRetro:   DrawRetroStyle(Canvas, DestRect, 1.0);
+    bsFlat:
+      DrawFlatStyle(Canvas, DestRect, 1.0);
+    bsNeon:
+      DrawNeonStyle(Canvas, DestRect, 1.0);
+    bsRetro:
+      DrawRetroStyle(Canvas, DestRect, 1.0);
   end;
   // --- 6. Draw Border (If Enabled) ---
   if FShowBorder and (FBorderWidth > 0) then
@@ -530,19 +567,17 @@ begin
     Paint.Style := TSkPaintStyle.Fill;
     Paint.Color := $FFFFFF;
     Paint.AlphaF := 0.48 * BrightnessMul * (1.0 - Pulse);
-    Canvas.DrawCircle(PointF(AWidth/2, AHeight/2),
-                      Pulse * (AWidth * 1.15),
-                      Paint);
+    Canvas.DrawCircle(PointF(AWidth / 2, AHeight / 2), Pulse * (AWidth * 1.15), Paint);
   end;
   if FIsHovered and (FHoverEffect = heGlow) then
   begin
-     Paint := TSkPaint.Create;
-     Paint.Style := TSkPaintStyle.Stroke;
-     Paint.StrokeWidth := 4;
-     Paint.Color := $FFFFFF;
-     Paint.AlphaF := 0.3 + (Sin(FTime * 3) * 0.1);
-     Paint.MaskFilter := TSkMaskFilter.MakeBlur(TSkBlurStyle.Solid, 4);
-     Canvas.DrawRoundRect(DestRect, FRoundCorners, FRoundCorners, Paint);
+    Paint := TSkPaint.Create;
+    Paint.Style := TSkPaintStyle.Stroke;
+    Paint.StrokeWidth := 4;
+    Paint.Color := $FFFFFF;
+    Paint.AlphaF := 0.3 + (Sin(FTime * 3) * 0.1);
+    Paint.MaskFilter := TSkMaskFilter.MakeBlur(TSkBlurStyle.Solid, 4);
+    Canvas.DrawRoundRect(DestRect, FRoundCorners, FRoundCorners, Paint);
   end;
   if FIsHovered and (FHoverEffect = heSpot) then
   begin
@@ -564,6 +599,7 @@ begin
   Canvas.RestoreToCount(SaveCount);
   FBackBuffer := Surface.MakeImageSnapshot;
 end;
+
 procedure TSkiaButton.DrawCenteredText(const ACanvas: ISkCanvas; const AText: string; const ADest: TRectF; const AFont: ISkFont; const APaint: ISkPaint);
 var
   TextBlob: ISkTextBlob;
@@ -580,6 +616,7 @@ begin
   TextPos.Y := (ADest.Height / 2) + (EstimatedHeight / 3);
   ACanvas.DrawTextBlob(TextBlob, TextPos.X, TextPos.Y, APaint);
 end;
+
 procedure TSkiaButton.DrawFlatStyle(const ACanvas: ISkCanvas; const ARect: TRectF; const AOpacity: Single);
 var
   Paint: ISkPaint;
@@ -607,7 +644,7 @@ begin
     Paint.Style := TSkPaintStyle.Stroke;
     Paint.StrokeWidth := 2;
     Paint.Color := TAlphacolors.White;
-    PathEffect := TSkPathEffect.MakeDiscrete(4.0 + Sin(FTime*5)*2, 2.0);
+    PathEffect := TSkPathEffect.MakeDiscrete(4.0 + Sin(FTime * 5) * 2, 2.0);
     Paint.PathEffect := PathEffect;
     ACanvas.DrawRoundRect(R, FRoundCorners, FRoundCorners, Paint);
   end
@@ -616,6 +653,7 @@ begin
     ACanvas.DrawRoundRect(R, FRoundCorners, FRoundCorners, Paint);
   end;
 end;
+
 procedure TSkiaButton.DrawNeonStyle(const ACanvas: ISkCanvas; const ARect: TRectF; const AOpacity: Single);
 var
   Paint: ISkPaint;
@@ -634,6 +672,7 @@ begin
   Paint.MaskFilter := TSkMaskFilter.MakeBlur(TSkBlurStyle.Normal, 5);
   ACanvas.DrawRoundRect(R, FRoundCorners, FRoundCorners, Paint);
 end;
+
 procedure TSkiaButton.DrawRetroStyle(const ACanvas: ISkCanvas; const ARect: TRectF; const AOpacity: Single);
 var
   Paint: ISkPaint;
@@ -656,4 +695,6 @@ begin
   ACanvas.DrawLine(R.Right, R.Top, R.Right, R.Bottom, Paint);
   ACanvas.DrawLine(R.Left, R.Bottom, R.Right, R.Bottom, Paint);
 end;
+
 end.
+
